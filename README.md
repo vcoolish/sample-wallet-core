@@ -55,4 +55,3 @@ To send Eth from this address, the following steps are needed:
 * sign this transaction (using the private key)
 * broadcast the transaction to the P2P network (not done in this sample)
 
-TODO
