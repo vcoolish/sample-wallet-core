@@ -1,0 +1,8 @@
+# build
+CMakeFiles
+CMakeCache.txt
+Makefile
+*.cmake
+
+# built binary
+sample
