@@ -6,3 +6,6 @@ Makefile
 
 # built binary
 sample
+
+# VSCode
+.vscode

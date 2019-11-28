@@ -59,9 +59,9 @@ int main() {
     cout << "transaction: " << transaction << endl;
     
     const string secretPrivKeyHex = TWStringUTF8Bytes(TWStringCreateWithHexData(TWPrivateKeyData(secretPrivateKey)));
-    vector<uint8_t> signerInput = ProtobufHelper::buildAnySignerInputMsg((uint32_t)coinType, transaction, secretPrivKeyHex);
+    string signerInput = ProtobufHelper::buildAnySignerInputMsg((uint32_t)coinType, transaction, secretPrivKeyHex);
     cout << "signing transaction ... ";
-    TW_Any_Proto_SigningOutput signerOutput = TWAnySignerSign(TWDataCreateWithBytes(signerInput.data(), signerInput.size()));
+    TW_Any_Proto_SigningOutput signerOutput = TWAnySignerSign(TWDataCreateWithBytes((const uint8_t*)signerInput.c_str(), signerInput.size()));
     cout << "done" << endl;
     // Extract signed output
     string signedTransaction;

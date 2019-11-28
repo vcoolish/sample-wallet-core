@@ -9,7 +9,11 @@ if (NOT WALLET_CORE)
     message (FATAL_ERROR "${SETUP_MESSAGE}")
 endif ()
 
-include_directories (${CMAKE_SOURCE_DIR} ${WALLET_CORE}/include)
+# Include dirs:
+# ${WALLET_CORE}/include -- public TrustWalletCore includes
+# ${WALLET_CORE}/src -- internal TrustWalletCore files, for signer protobuf messages
+# ${WALLET_CORE}/build/local/include) -- for protobuf includes
+include_directories (${CMAKE_SOURCE_DIR} ${WALLET_CORE}/include ${WALLET_CORE}/src ${WALLET_CORE}/build/local/include)
 link_directories (${WALLET_CORE}/build ${WALLET_CORE}/build/trezor-crypto ${WALLET_CORE}/build/local/lib)
 
 find_library(WALLET_CORE_LIB_FILE TrustWalletCore PATH ${WALLET_CORE}/build)
