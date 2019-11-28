@@ -4,8 +4,6 @@
 // terms governing use, modification, and redistribution, is contained in the
 // file LICENSE at the root of the source code distribution tree.
 
-#include "protobuf_helper.h"
-
 #include <TrustWalletCore/TWAnyProto.h>
 #include <TrustWalletCore/TWAnySigner.h>
 #include <TrustWalletCore/TWCoinType.h>
@@ -14,10 +12,44 @@
 #include <TrustWalletCore/TWPrivateKey.h>
 #include <TrustWalletCore/TWString.h>
 
+// Note: this include file is internal for TrustWalletCore
+#include <proto/Any.pb.h>
+
 #include <iostream>
-#include <vector>
+#include <string>
 
 using namespace std;
+
+/// Helper for Signer input protobuf message building
+string buildAnySignerInputMsg(uint32_t coinType, string transaction, string privKeyHex) {
+    TW::Any::Proto::SigningInput si;
+    si.set_coin_type(coinType);
+    si.set_transaction(transaction);
+    si.set_private_key(privKeyHex);
+    string serialized;
+    if (!si.SerializeToString(&serialized)) { return ""; }
+    return serialized;
+}
+
+/// Helper for Signer output protobuf message parsing.
+bool parseSignedTransactionOutput(TW_Any_Proto_SigningOutput signerOutput, string& out) {
+    // copy to byte string
+    string outStr;
+    outStr.insert(outStr.end(), TWDataBytes(signerOutput), TWDataBytes(signerOutput) + TWDataSize(signerOutput));
+    // parse protobuf message
+    TW::Any::Proto::SigningOutput so;
+    if (!so.ParseFromString(outStr)) {
+        cout << "Error parsing SingerOutput protobuf message!" << endl;
+        return false;
+    }
+    if (so.has_error()) {
+        cout << "SingerOutput has error! " << so.error().description() << endl;
+        return false;
+    }
+    // OK, get output
+    out = so.output();
+    return true;
+}
 
 int main() {
     cout << "Wallet Core Demo, C++" << endl << endl;
@@ -59,13 +91,13 @@ int main() {
     cout << "transaction: " << transaction << endl;
     
     const string secretPrivKeyHex = TWStringUTF8Bytes(TWStringCreateWithHexData(TWPrivateKeyData(secretPrivateKey)));
-    string signerInput = ProtobufHelper::buildAnySignerInputMsg((uint32_t)coinType, transaction, secretPrivKeyHex);
+    string signerInput = buildAnySignerInputMsg((uint32_t)coinType, transaction, secretPrivKeyHex);
     cout << "signing transaction ... ";
     TW_Any_Proto_SigningOutput signerOutput = TWAnySignerSign(TWDataCreateWithBytes((const uint8_t*)signerInput.c_str(), signerInput.size()));
     cout << "done" << endl;
     // Extract signed output
     string signedTransaction;
-    if (!ProtobufHelper::parseSignedTransactionOutput(signerOutput, signedTransaction)) {
+    if (!parseSignedTransactionOutput(signerOutput, signedTransaction)) {
         cout << "Could not parse out signed transaction!" << endl;
     }
     else
