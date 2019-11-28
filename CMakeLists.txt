@@ -56,7 +56,7 @@ endif ()
 SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${PLATFORM_LINK_FLAGS}")
 
 # sources of this exec
-add_executable (sample sample.cpp)
+add_executable (sample sample.cpp protobuf_helper.h protobuf_helper.cpp)
 
 # link with our library, and default platform libraries
 target_link_libraries (sample TrustWalletCore TrezorCrypto protobuf ${PLATFORM_LIBS})
