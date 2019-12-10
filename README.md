@@ -18,7 +18,9 @@ The dependencies TrezorCrypto and protobuf are also needed, these are also come 
 
 See the official [Trust Wallet developer documentation here](https://developer.trustwallet.com).
 
-See especially Wallet Core [Integration Guide](https://developer.trustwallet.com/wallet-core/integration-guide.md).
+See especially Wallet Core
+[Integration Guide](https://developer.trustwallet.com/wallet-core/integration-guide.md),
+[Build Instructions](https://developer.trustwallet.com/wallet-core/building.md).
 
 ## Building and Running
 
@@ -52,9 +54,9 @@ The sample code should be self-documented, but here are some overview explanatio
 * Create a new wallet
   * A new wallet, with a new mnemonic passphrase, is created with HDWallet.  The mnemonic is retrieved and printed.
 * Coin Type
- * In this sample we use Ethereum.
+  * In this sample we use Ethereum.
 * Derive address
- * Address is derived from the HD wallet.
+  * Address is derived from the HD wallet.
 * Create send transaction
   * put together a send transaction (contains sender and receiver address, amount, etc.)
   * sign this transaction (using the private key)
