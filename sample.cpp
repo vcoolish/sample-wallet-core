@@ -52,29 +52,59 @@ bool parseSignedTransactionOutput(TW_Any_Proto_SigningOutput signerOutput, strin
 }
 
 int main() {
-    cout << "Wallet Core Demo, C++" << endl << endl;
-    cout << "DISCLAIMER: This is a sample application with demonstration purposes only, do not use it with real addresses, or real transactions, use it at your own risk." << endl;
+    cout << "Wallet Core Demo, C++" << endl;
+    cout << endl;
+    cout << "  *** DISCLAIMER ***" << endl;
+    cout << "  THIS IS A SAMPLE APPLICATION WITH DEMONSTRATION PURPOSES ONLY." << endl;
+    cout << "  DO NOT USE WITH REAL SECRETS, REAL ADDRESSESS, OR REAL TRANSACTIONS.  USE IT AT YOUR OWN RISK." << endl;
+    cout << "  *** DISCLAIMER ***" << endl;
+    cout << endl;
 
-    // Create a new wallet, with new mnemonic passphrase
+    // Create a new wallet, with new recovery phrase (mnemonic)
     cout << "Creating a new HD wallet ... ";
-    TWHDWallet* wallet = TWHDWalletCreate(128, TWStringCreateWithUTF8Bytes(""));
+    TWHDWallet* walletNew = TWHDWalletCreate(128, TWStringCreateWithUTF8Bytes(""));
     cout << "done." << endl;
-    cout << "Secret menmonic phrase for new wallet: '";
-    cout << TWStringUTF8Bytes(TWHDWalletMnemonic(wallet)) << "'." << endl << endl;
+    cout << "Secret menmonic for new wallet: '";
+    cout << TWStringUTF8Bytes(TWHDWalletMnemonic(walletNew)) << "'." << endl;
+
+    // Alternative: Import wallet with existing recovery phrase (mnemonic)
+    cout << "Importing an HD wallet from earlier ... ";
+    auto secretMnemonic = "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal";
+    TWHDWallet* walletImp = TWHDWalletCreateWithMnemonic(TWStringCreateWithUTF8Bytes(secretMnemonic), TWStringCreateWithUTF8Bytes(""));
+    cout << "done." << endl;
+    cout << "Secret menmonic for imported wallet: '";
+    cout << TWStringUTF8Bytes(TWHDWalletMnemonic(walletImp)) << "'." << endl;
+    cout << endl;
 
     // coin type: we use Ethereum
-    const TWCoinType coinType = TWCoinType::TWCoinTypeEthereum;
+    const TWCoinType coinType = TWCoinType::TWCoinTypeEthereum; // TWCoinTypeBitcoin, TWCoinTypeEthereum
     cout << "Working with coin: " << 
         TWStringUTF8Bytes(TWCoinTypeConfigurationGetName(coinType)) << " " <<
         TWStringUTF8Bytes(TWCoinTypeConfigurationGetSymbol(coinType)) << endl; 
 
-    // Derive default address.  Done in 2 steps: derive private key, then address from private key
+    // Derive default address.
     cout << "Obtaining default address ... "; 
-    TWPrivateKey* secretPrivateKey = TWHDWalletGetKeyForCoin(wallet, coinType);
-    string address = TWStringUTF8Bytes(TWCoinTypeDeriveAddress(coinType, secretPrivateKey));
-    cout << "'" << address << "'" << endl << endl;
+    string address = TWStringUTF8Bytes(TWHDWalletGetAddressForCoin(walletImp, coinType));
+    cout << " done." << endl; 
+    cout << "Default address:          '" << address << "'" << endl;
 
-    cout << "RECEIVE funds: send to the address:   " << address << " ." << endl << endl;
+    // Alternative: Derive address using default derivation path.
+    // Done in 2 steps: derive private key, then address from private key.
+    // Note that private key is passed around between the two calls by the wallet -- be always cautious when handling secrets, avoid the risk of leaking secrets.
+    cout << "Default derivation path:  " << TWStringUTF8Bytes(TWCoinTypeDerivationPath(coinType)) << endl;
+    TWPrivateKey* secretPrivateKeyDefault = TWHDWalletGetKeyForCoin(walletImp, coinType);
+    string addressDefault = TWStringUTF8Bytes(TWCoinTypeDeriveAddress(coinType, secretPrivateKeyDefault));
+    cout << "Address from default key: '" << addressDefault << "'" << endl;
+
+    // Alternative: Derive address using custom derivation path.  Done in 2 steps: derive private key, then address.
+    auto customDerivationPath = "m/44'/60'/1'/0/0";
+    TWPrivateKey* secretPrivateKeyCustom = TWHDWalletGetKey(walletImp, TWStringCreateWithUTF8Bytes(customDerivationPath));
+    string addressCustom = TWStringUTF8Bytes(TWCoinTypeDeriveAddress(coinType, secretPrivateKeyCustom));
+    cout << "Custom-derived address:   '" << addressCustom << "'" << endl;
+    cout << endl;
+
+    cout << "RECEIVE funds: Perform send from somewehere else to this address:   " << address << " ." << endl;
+    cout << endl;
 
     // Steps for sending:
     // 1. put together a send message (contains sender and receiver address, amount, etc.)
@@ -90,7 +120,7 @@ int main() {
     transaction += R"(","amount":"A0i8paFgAA=="})";
     cout << "transaction: " << transaction << endl;
     
-    const string secretPrivKeyHex = TWStringUTF8Bytes(TWStringCreateWithHexData(TWPrivateKeyData(secretPrivateKey)));
+    const string secretPrivKeyHex = TWStringUTF8Bytes(TWStringCreateWithHexData(TWPrivateKeyData(secretPrivateKeyDefault)));
     string signerInput = buildAnySignerInputMsg((uint32_t)coinType, transaction, secretPrivKeyHex);
     cout << "signing transaction ... ";
     TW_Any_Proto_SigningOutput signerOutput = TWAnySignerSign(TWDataCreateWithBytes((const uint8_t*)signerInput.c_str(), signerInput.size()));
