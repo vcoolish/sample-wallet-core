@@ -1,11 +1,11 @@
 # build
-CMakeFiles
-CMakeCache.txt
-Makefile
+**/CMakeFiles
+**/CMakeCache.txt
+**/Makefile
 *.cmake
 
 # built binary
-sample
+**/sample
 
 # VSCode
 .vscode

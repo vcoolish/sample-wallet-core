@@ -65,7 +65,7 @@ int main() {
 
     TWHDWallet* walletImp = nullptr;
     {
-        // Create a new wallet, with new recovery phrase (mnemonic)
+        // Create a new multi-coin HD wallet, with new recovery phrase (mnemonic)
         cout << "Creating a new HD wallet ... ";
         TWHDWallet* walletNew = TWHDWalletCreate(128, TWStringCreateWithUTF8Bytes(""));
         cout << "done." << endl;

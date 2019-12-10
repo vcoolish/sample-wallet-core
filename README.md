@@ -51,8 +51,8 @@ Run it:
 
 The sample code should be self-documented, but here are some overview explanations:
 
-* Create a new wallet
-  * A new wallet, with a new mnemonic passphrase, is created with HDWallet.  The mnemonic is retrieved and printed.
+* Import a wallet
+  * Create a wallet by importing an existing recovery phrase (mnemonic), using HDWallet.
 * Coin Type
   * In this sample we use Ethereum.
 * Derive address
