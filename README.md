@@ -2,8 +2,11 @@
 
 ## Overview
 
-This repository contains a few simple, but complete sample application, for demostrating usage of the
-[Wallet Core](https://github.com/trustwallet/wallet-core) library (part of [Trust Wallet](https://trustwallet.com))
+This repository contains a few simple, but complete sample applications, for demostrating usage of the
+[Wallet Core](https://github.com/trustwallet/wallet-core) library (part of [Trust Wallet](https://trustwallet.com)).
+There are several samples:
+* **iOS**
+* **C++**
 
 ## DISCLAIMER
 
@@ -16,8 +19,8 @@ This repository contains a few simple, but complete sample application, for demo
 See the official [Trust Wallet developer documentation here](https://developer.trustwallet.com).
 
 See especially Wallet Core
-[Integration Guide](https://developer.trustwallet.com/wallet-core/integration-guide.md),
-[Build Instructions](https://developer.trustwallet.com/wallet-core/building.md).
+[Integration Guide](https://developer.trustwallet.com/wallet-core/integration-guide),
+[Build Instructions](https://developer.trustwallet.com/wallet-core/building).
 
 # iOS
 
@@ -105,4 +108,4 @@ The sample code should be self-documented, but here are some overview explanatio
   * put together a send transaction (contains sender and receiver address, amount, etc.)
   * sign this transaction (using the private key)
 
-See the [Integration Guide](https://developer.trustwallet.com/wallet-core/integration-guide.md).
+See the [Integration Guide](https://developer.trustwallet.com/wallet-core/integration-guide).
