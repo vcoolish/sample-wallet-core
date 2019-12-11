@@ -1,3 +1,12 @@
+*~
+
+# iOS
+Pods/
+Carthage/
+# temp disable spm/
+spm/
+
+# C++
 # build
 **/CMakeFiles
 **/CMakeCache.txt
