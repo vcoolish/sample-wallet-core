@@ -5,6 +5,7 @@ Pods/
 Carthage/
 # temp disable spm/
 spm/
+.DS_Store
 
 # C++
 # build

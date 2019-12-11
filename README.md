@@ -24,14 +24,51 @@ See especially Wallet Core
 
 ## Building and Running
 
-### C++
-
-Get this sample:
+First of all, get this sample:
 
 ```shell
 git clone https://github.com/trustwallet/sample-wallet-core.git
 cd sample-wallet-core
-cd cpp
+```
+
+### iOS
+
+Go to the **ios** folder:
+
+```shell
+cd sample-wallet-core/ios/cocoapods
+```
+
+Install dependencies with [*CocoaPods*](https://cocoapods.org/).  If you don't have CocoaPods, install it by
+`gem install cocoapods`.
+
+```shell
+pod install
+```
+
+* Open the following workspace with Xcode: `ios/cocoapods/WalletCoreExample.xcworkspace` 
+* Build and Run
+
+The relevant sample code is in the file `WalletCoreExample/ViewController.swift`.  Output appears in Output window (or stdout).
+
+```
+├── Podfile
+├── Podfile.lock
+├── WalletCoreExample
+│   ├── AppDelegate.swift
+│   ├── Info.plist
+│   ├── ViewController.swift
+│   └── WalletCoreExample.entitlements
+├── WalletCoreExample.xcodeproj
+└── WalletCoreExample.xcworkspace
+```
+
+### C++
+
+Go to the **cpp** folder:
+
+```shell
+cd sample-wallet-core/cpp
 ```
 
 Configure and build -- path to the TrustWalletCore build directory is needed:
@@ -46,6 +83,8 @@ Run it:
 ```shell
 ./sample
 ```
+
+The relavant sample code is in the file `cpp/sample.cpp`.
 
 ## What it Does
 
