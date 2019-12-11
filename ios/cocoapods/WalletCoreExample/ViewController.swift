@@ -38,11 +38,8 @@ class ViewController: NSViewController {
         print("Signed transaction:")
         print(" data:   ", signerOutput.encoded.hexString)
 
-        /*
         // Signing a transaction (using AnySigner)
-        let secretPrivateKey = wallet.getKeyForCoin(coin: coin)
         let secretPrivateKeyHex = secretPrivateKey.data.hexString
-        let dummyReceiverAddress = "0xC37054b3b48C3317082E7ba872d7753D13da4986"
         let chainIdB64 = "AQ=="  // base64(parse_hex("01"))
         let gasPriceB64 = "1pOkAA=="  // base64(parse_hex("d693a4")) decimal 3600000000
         let gasLimitB64 = "Ugg="  // base64(parse_hex("5208")) decimal 21000
@@ -54,18 +51,17 @@ class ViewController: NSViewController {
             "\",\"toAddress\":\"" + dummyReceiverAddress +
             "\",\"amount\":\"" + amountB64 + "\"}"
         print("transaction: ", transaction);
-        let signerInput = TW_Any_Proto_SigningInput.with {
+        let anySignerInput = TW_Any_Proto_SigningInput.with {
             $0.coinType = coin.rawValue
             $0.transaction = transaction
             $0.privateKey = secretPrivateKeyHex
         }
-        let signerOutput = AnySigner.sign(input: signerInput)
-        if (!signerOutput.success) {
-            print("Error:", signerOutput.error)
+        let anySignerOutput = AnySigner.sign(input: anySignerInput)
+        if (!anySignerOutput.success) {
+            print("Error:", anySignerOutput.error)
         } else {
-            print("Signed transaction data:", signerOutput.output)
+            print("Signed transaction data:", anySignerOutput.output)
         }
-        */
     }
 
     override var representedObject: Any? {
