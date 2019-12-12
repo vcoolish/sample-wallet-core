@@ -26,7 +26,7 @@ class ViewController: NSViewController {
         // Signing a transaction (using EthereumSigner)
         let secretPrivateKey = wallet.getKeyForCoin(coin: coin)
         let dummyReceiverAddress = "0xC37054b3b48C3317082E7ba872d7753D13da4986"
-        let signerInput = TW_Ethereum_Proto_SigningInput.with {
+        let signerInput = EthereumSigningInput.with {
             $0.chainID = Data(hexString: "01")!
             $0.gasPrice = Data(hexString: "d693a400")! // decimal 3600000000
             $0.gasLimit = Data(hexString: "5208")! // decimal 21000
@@ -51,7 +51,7 @@ class ViewController: NSViewController {
             "\",\"toAddress\":\"" + dummyReceiverAddress +
             "\",\"amount\":\"" + amountB64 + "\"}"
         print("transaction: ", transaction);
-        let anySignerInput = TW_Any_Proto_SigningInput.with {
+        let anySignerInput = AnySigningInput.with {
             $0.coinType = coin.rawValue
             $0.transaction = transaction
             $0.privateKey = secretPrivateKeyHex
