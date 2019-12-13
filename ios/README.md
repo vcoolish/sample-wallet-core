@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a simple but complete *iOS/macOS* sample application, for demostrating usage of the
+This repository contains a simple but complete **iOS/macOS** sample application, for demostrating usage of the
 [Wallet Core](https://github.com/trustwallet/wallet-core) library (part of [Trust Wallet](https://trustwallet.com)).
 
 ## DISCLAIMER
@@ -60,7 +60,7 @@ The relevant sample code is in the file `WalletCoreExample/ViewController.swift`
 
 # What it Does
 
-The sample code should be self-documented, but here are some overview explanations:
+An overview of the operations done in the sample app is as follows.
 
 * Import a wallet
   * Create a wallet by importing an existing recovery phrase (mnemonic), using HDWallet.
